@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <rect width="24" height="24" fill="#2e7d32" rx="12" ry="12"/>
+    <g transform="translate(6, 1)" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+        <path d="M6 2L6 9M6 9C4 9 2.5 10 2.5 12C2.5 14 4 15 6 15M6 9C8 9 9.5 10 9.5 12C9.5 14 8 15 6 15M6 15L6 22" />
+        <path d="M-3 7C-3 7 0 5 3 5C6 5 6 7 6 7" />
+        <path d="M15 7C15 7 12 5 9 5C6 5 6 7 6 7" />
+        <path d="M-3 13C-3 13 0 11 3 11C6 11 6 13 6 13" />
+        <path d="M15 13C15 13 12 11 9 11C6 11 6 13 6 13" />
+    </g>
+</svg>

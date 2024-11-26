@@ -2,6 +2,26 @@ import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+const PlantIcon = () => (
+  <svg 
+    width="64" 
+    height="64" 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round"
+    className="plant-icon"
+  >
+    <path d="M12 2L12 9M12 9C10 9 8.5 10 8.5 12C8.5 14 10 15 12 15M12 9C14 9 15.5 10 15.5 12C15.5 14 14 15 12 15M12 15L12 22" />
+    <path d="M3 7C3 7 6 5 9 5C12 5 12 7 12 7" />
+    <path d="M21 7C21 7 18 5 15 5C12 5 12 7 12 7" />
+    <path d="M3 13C3 13 6 11 9 11C12 11 12 13 12 13" />
+    <path d="M21 13C21 13 18 11 15 11C12 11 12 13 12 13" />
+  </svg>
+);
+
 function Home() {
   const [previewUrl, setPreviewUrl] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -80,7 +100,10 @@ function Home() {
   return (
     <div className="container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
       <div className="content-wrapper" style={{ textAlign: 'center' }}>
-        <h1 className="title">Plant Identifier</h1>
+        <div className="app-header">
+          <PlantIcon />
+          <h1 className="title">Plant Identifier</h1>
+        </div>
         <p className="subtitle">
           Upload a photo of a plant to identify it
         </p>
@@ -96,6 +119,7 @@ function Home() {
               <img src={previewUrl} alt="Preview" className="preview-image" />
             ) : (
               <div className="upload-prompt">
+                <PlantIcon />
                 <button 
                   type="button"
                   className="select-file-button"
