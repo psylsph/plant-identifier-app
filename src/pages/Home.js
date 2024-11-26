@@ -1,12 +1,11 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function Home() {
-  const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
+  const fileInputRef = useRef(null);
   const navigate = useNavigate();
 
   const handleUpload = async (file) => {
@@ -54,13 +53,12 @@ function Home() {
 
   const handleFile = (file) => {
     if (file && file.type.startsWith('image/')) {
-      setSelectedFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreviewUrl(reader.result);
       };
       reader.readAsDataURL(file);
-      handleUpload(file); // Automatically start upload when file is selected
+      handleUpload(file);
     } else {
       alert('Please select an image file');
     }
@@ -68,25 +66,16 @@ function Home() {
 
   const handleFileSelect = (event) => {
     const file = event.target.files[0];
-    handleFile(file);
+    if (file) {
+      handleFile(file);
+    }
   };
 
-  const handleDragOver = useCallback((e) => {
-    e.preventDefault();
-    setIsDragging(true);
-  }, []);
-
-  const handleDragLeave = useCallback((e) => {
-    e.preventDefault();
-    setIsDragging(false);
-  }, []);
-
-  const handleDrop = useCallback((e) => {
-    e.preventDefault();
-    setIsDragging(false);
-    const file = e.dataTransfer.files[0];
-    handleFile(file);
-  }, []);
+  const handleSelectClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
 
   return (
     <div className="container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
@@ -97,13 +86,7 @@ function Home() {
         </p>
 
         <div className="upload-container">
-          <div
-            className={`preview-container ${loading ? 'loading' : ''}`}
-            onDragOver={handleDragOver}
-            onDragLeave={handleDragLeave}
-            onDrop={handleDrop}
-            style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-          >
+          <div className={`preview-container ${loading ? 'loading' : ''}`}>
             {loading ? (
               <div className="loading-overlay">
                 <div className="loading-spinner" />
@@ -112,27 +95,27 @@ function Home() {
             ) : previewUrl ? (
               <img src={previewUrl} alt="Preview" className="preview-image" />
             ) : (
-              <div className="drop-zone-text">
-                <p>Drag & drop an image here</p>
-                <p>or</p>
-                <label htmlFor="file-input" className="select-file-label">
-                  Click to select
-                </label>
+              <div className="upload-prompt">
+                <button 
+                  type="button"
+                  className="select-file-button"
+                  onClick={handleSelectClick}
+                >
+                  Upload Plant Photo
+                </button>
               </div>
             )}
-            <div className={`drop-zone ${isDragging ? 'active' : ''}`}>
-              Drop image here
-            </div>
           </div>
-
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleFileSelect}
-            style={{ display: 'none' }}
-            id="file-input"
-          />
         </div>
+
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          onChange={handleFileSelect}
+          style={{ display: 'none' }}
+          aria-label="Upload image"
+        />
       </div>
     </div>
   );
